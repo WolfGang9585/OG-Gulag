@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>THE GULAG</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-180.png">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<style>
+:root{ --green:#39FF14; --purple:#BC13FE; --bg:#000; --fg:#e8e8e8; }
+*{box-sizing:border-box} body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center}
+.card{width:min(1080px,96vw);padding:28px;border:1px solid #1a1a1a;border-radius:16px;background:
+  radial-gradient(1200px 600px at -10% -10%, rgba(188,19,254,.12), transparent 60%),
+  radial-gradient(1200px 600px at 110% 110%, rgba(57,255,20,.12), transparent 60%), #050505}
+.logo{display:block;margin:0 auto 14px;max-width:160px}
+h1{margin:6px 0 6px;font-size:28px;text-align:center;letter-spacing:.25px}
+.tag{display:block;text-align:center;margin:0 0 16px;color:#bbb}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid #2a2a2a;color:#111;background:linear-gradient(90deg,var(--green),var(--purple));font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+footer{margin-top:16px;text-align:center;font-size:12px;opacity:.7}
+</style>
+</head><body>
+<main class="card">
+  <img class="logo" src="/icon-512.png" alt="THE GULAG logo">
+  <h1>THE GULAG</h1>
+  <span class="tag">Where Misfits Become Legends</span>
+  <div class="row">
+    <a class="btn" href="/health" target="_blank">Health</a>
+    <a class="btn" href="#" onclick="installHint();return false;">Install App</a>
+  </div>
+  <footer>© THE GULAG</footer>
+</main>
+<script>
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+function installHint(){ alert('iPhone: Share → Add to Home Screen\nAndroid: Chrome menu → Install App'); }
+</script>
+</body></html>
