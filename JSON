@@ -1,0 +1,7 @@
+{
+  "name": "the-gulag-final",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": { "start": "node app.js" },
+  "engines": { "node": ">=18" }
+}
