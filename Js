@@ -1,0 +1,44 @@
+// THE GULAG FINAL — ENV-only Node server (no setup page, no files)
+const http = require('http');
+const url = require('url');
+
+const PORT = process.env.PORT || 5000;
+const CFG = {
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || '',
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || '',
+  DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID || '',
+  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET || '',
+  DISCORD_REDIRECT_URI: process.env.DISCORD_REDIRECT_URI || ''
+};
+
+const page = (title, body) => `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title>
+<style>:root{--g:#39FF14;--p:#BC13FE}body{margin:0;background:#000;color:#eee;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1080px;margin:40px auto;padding:24px;border:1px solid #1a1a1a;border-radius:16px;background:
+radial-gradient(1200px 600px at -10% -10%, rgba(188,19,254,.12), transparent 60%),
+radial-gradient(1200px 600px at 110% 110%, rgba(57,255,20,.12), transparent 60%),#050505}
+a.btn{display:inline-block;margin:8px 8px 0 0;padding:10px 14px;border-radius:10px;border:1px solid #2a2a2a;text-decoration:none;color:#111;background:linear-gradient(90deg,var(--g),var(--p));font-weight:700}</style>
+</head><body><main class="wrap">${body}</main></body></html>`;
+
+const front = page('THE GULAG — Dashboard', `
+  <h1>THE GULAG</h1>
+  <p>ENV-only build. Configure keys in Render → Environment.</p>
+  <p><a class="btn" href="/store.html">Rewards Store</a>
+     <a class="btn" href="/topup.html">Buy Points</a>
+     <a class="btn" href="/health">Health</a></p>`);
+
+const store = page('Store', `<h1>Store</h1><p>Page loads → routing OK.</p><p><a class="btn" href="/front-end.html">← Back</a></p>`);
+const topup = page('Topup', `<h1>Buy Points</h1><p>Stripe keys come from ENV only.</p><p><a class="btn" href="/front-end.html">← Back</a></p>`);
+
+const server = http.createServer((req, res) => {
+  const p = url.parse(req.url,true).pathname;
+  if (p === '/' || p === '/front-end.html') { res.writeHead(200, {'Content-Type':'text/html'}); return res.end(front); }
+  if (p === '/store.html' || p === '/store') { res.writeHead(200, {'Content-Type':'text/html'}); return res.end(store); }
+  if (p === '/topup.html' || p === '/topup') { res.writeHead(200, {'Content-Type':'text/html'}); return res.end(topup); }
+  if (p === '/health') {
+    res.writeHead(200, {'Content-Type':'application/json'});
+    return res.end(JSON.stringify({ ok:true, app:"THE GULAG",
+      hasStripe:Boolean(CFG.STRIPE_SECRET_KEY), hasDiscord:Boolean(CFG.DISCORD_CLIENT_ID) }));
+  }
+  res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found');
+});
+server.listen(PORT, () => console.log(`THE GULAG FINAL running on ${PORT}`));
